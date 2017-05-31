@@ -74,7 +74,7 @@ class PyArdyApp:
                         opts, args = getopt.getopt(argv,"hlspa:",["arduino="])
 
                 except getopt.GetoptError:
-                        usage()
+                        self.usage()
                         sys.exit(2)
 
                 for opt, arg in opts:

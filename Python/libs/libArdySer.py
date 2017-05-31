@@ -48,7 +48,7 @@ class ArdySer:
 # port discovery
 
     def couldBeArduino( self, trycomport ):
-	possibilities = ['Arduino', 'CH340', 'wchusb' ]
+	possibilities = ['Arduino', 'CH340', 'CH341', 'wchusb' ]
 	for needle in possibilities:
 	    if needle in trycomport.description:
 		    return True
@@ -111,17 +111,19 @@ class ArdySer:
 
 	#  only need to scan bottom half, since it's 7bit address
 	x = 0
-	lastWasdot = False
+	lastWasDot = False
 	for i in range( 0x00, 0x80 ):
 
 	    # read device id
-	    self.i2cWrite8( i, 0x00, 0x00 )
-	    self.i2cWrite8( i, 0x01, 0x00 )
-	    self.i2cWrite8( i, 0x02, 0x00 )
-	    self.i2cWrite8( i, 0x03, 0x00 )
+	    #self.i2cWrite8( i, 0x00, 0x00 )
+	    #self.i2cWrite8( i, 0x01, 0x00 )
+	    #self.i2cWrite8( i, 0x02, 0x00 )
+	    #self.i2cWrite8( i, 0x03, 0x00 )
 	
 	    value0 = self.i2cRead8( i, 0x00 )
 	    value1 = self.i2cRead8( i, 0x01 )
+
+	    #print "{}: {} {}".format( i, value0, value1 )
 	    if value0 is not 0xff or value1 is not 0xff:
 		if lastWasDot is True:
 			print 
@@ -178,6 +180,23 @@ class ArdySer:
 
 	self.flush()
 
+        # Figure out if we need to add a delay for 328p/168 chips
+        addDelay = True
+        if "Leonardo" in self.GetPortName():
+            addDelay = False
+        if "Leonardo" in self.GetPortDescription():
+            addDelay = False
+            
+        if addDelay is True:
+            print "Non-Leonardo delay.",
+            sys.stdout.flush()
+            for a in range( 0,5 ):
+                delay( 500 )
+                print ".",
+                sys.stdout.flush()
+            print
+
+        # print out some connection info
 	widgetVersion = self.getVersion()
 	self.vprint( "Connected to version {:04x}".format( widgetVersion ))
 	siga = self.configRead( 0 )
