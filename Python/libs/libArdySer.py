@@ -114,20 +114,19 @@ class ArdySer:
 	lastWasDot = False
 	for i in range( 0x00, 0x80 ):
 
-	    # read device id
-	    #self.i2cWrite8( i, 0x00, 0x00 )
-	    #self.i2cWrite8( i, 0x01, 0x00 )
-	    #self.i2cWrite8( i, 0x02, 0x00 )
-	    #self.i2cWrite8( i, 0x03, 0x00 )
+	    # read from register 0.
+	    # preload it with 0, just in case.
 	
+	    self.i2cWrite8( i, 0x00, 0x00 )
 	    value0 = self.i2cRead8( i, 0x00 )
+	    self.i2cWrite8( i, 0x01, 0x00 )
 	    value1 = self.i2cRead8( i, 0x01 )
 
 	    #print "{}: {} {}".format( i, value0, value1 )
 	    if value0 is not 0xff or value1 is not 0xff:
 		if lastWasDot is True:
 			print 
-		print "0x{:02x}: Detected.  (0x{:02x})".format( i, value0 )
+		print "0x{:02x} 7b: Detected.  (0x{:02x} 8b)".format( i, i<<1 )
 		lastWasDot = False
 		x = 0
 	    else:
