@@ -21,21 +21,51 @@ class RC2014_BusSupervisor:
 	# class variables
 
 	ardy = None
+
 	cpuIoData = None
 	# A0-A7 - Data byte
-	# B0  - 0x01 - M1
-	# B1  - 0x02 - CLK
-	# B2  - 0x04 - INT
-	# B3  - 0x08 - MREQ
-	# B4  - 0x10 - 1
-	# B5  - 0x20 - M1
-	# B6  - 0x40 - M1
-	# B7  - 0x80 - M1
+	# B0-B7 - Bus control
+	M1     = 0x01	# B0
+	CLK    = 0x02	# B1
+	INT    = 0x04	# B2
+	MREQ   = 0x08	# B3
+	WR     = 0x10	# B4
+	RD     = 0x20	# B5
+	IORQ   = 0x40	# B6
+	BUSACK = 0x80	# B7
 
 	cpuControl = None
+	# 0x0F - control, clock, etc
+	BUSREQ = 0x01
+	RESET  = 0x02
+	CLKEN  = 0x04
+	CLKOUT = 0x08
+	# 0xF0 - unused
+
 	cpuAddress = None
+	# A0-A7, B0-B7 - Address lines (reversed)
 	
 
+	def bitReverse( data ):
+		retval = 0
+		if( (data & 0x80) == 0x80 ):	retval = retval | 0x01
+		if( (data & 0x40) == 0x40 ):	retval = retval | 0x02
+		if( (data & 0x20) == 0x20 ):	retval = retval | 0x04
+		if( (data & 0x10) == 0x10 ):	retval = retval | 0x08
+		if( (data & 0x08) == 0x08 ):	retval = retval | 0x10
+		if( (data & 0x04) == 0x04 ):	retval = retval | 0x20
+		if( (data & 0x02) == 0x02 ):	retval = retval | 0x40
+		if( (data & 0x01) == 0x01 ):	retval = retval | 0x80
+
+		return retval;
+
+	addr = 0x20
+x    def __init__(self, bus, addr, verbose):
+        self.ixData = MCP23017(bus, addr+1)
+        self.ixControl = PCF8574(bus, addr+2)
+        self.ixAddress = MCP23017(bus, addr+3)
+
+
 	##################################
 	# Initialization
 	
