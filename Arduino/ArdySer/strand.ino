@@ -6,9 +6,19 @@
 
 #include <Adafruit_WS2801.h>
 
+#define __PRO_MICRO__ (1)
+
 #define kMaxPixel  (7)
+
+#ifdef __LEONARDO__
 #define kDataPin   (14) /* WHITE */
 #define kClockPin  (15) /* GREEN */
+#endif
+
+#ifdef __PRO_MICRO__
+#define kDataPin   (11) /* WHITE */
+#define kClockPin  (12) /* GREEN */
+#endif
 
 Adafruit_WS2801 strand = Adafruit_WS2801( kMaxPixel, kDataPin, kClockPin );
 
