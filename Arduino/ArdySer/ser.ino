@@ -5,6 +5,8 @@
 //  these will call line.c when they have a full line
 //
 
+#include "cfg.h"
+
 //////////////////////////////////////////////////
 // every module has a Setup, and poll
 
@@ -24,7 +26,7 @@ void serSetup()
 
   //Initialize serial and wait for port to open:
   serialOK = false;
-  Serial.begin(115200);
+  Serial.begin( kBaudRate );
 
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only

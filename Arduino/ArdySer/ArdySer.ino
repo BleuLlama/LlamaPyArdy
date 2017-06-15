@@ -4,16 +4,9 @@
 //  Serial-to-I2C/PinIO thing
 //   yorgle@gmail.com
 //
-#define kCurrentVersion 0x0004
+// Version information in "cfg.h"
+#include "cfg.h"
 
-//  v004 - 2017-05-28  Servo
-//
-//  v003 - 2017-05-23  strand support
-//
-//  v002 - 2017-05-12  Added "NoRegister" read/write
-//
-//  v001 - 2017-05-02  initial version
-//
 
 
 //////////////////////////////////////////////////

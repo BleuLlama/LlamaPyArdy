@@ -47,7 +47,7 @@ class GenericChip:
 
 
 	def initChip( self ):
-		print( "override this function in your chip" );
+		print( "override this function in your chip" )
 
 
 	##################################

@@ -44,8 +44,13 @@ class RC2014_BusSupervisor:
 
 	cpuAddress = None
 	# A0-A7, B0-B7 - Address lines (reversed)
-	
 
+	# our mirror values here
+	data = 0
+	dataControl = 0
+	dataAddress = 0
+	
+    ##############################	
 	def bitReverse( data ):
 		retval = 0
 		if( (data & 0x80) == 0x80 ):	retval = retval | 0x01
@@ -57,24 +62,43 @@ class RC2014_BusSupervisor:
 		if( (data & 0x02) == 0x02 ):	retval = retval | 0x40
 		if( (data & 0x01) == 0x01 ):	retval = retval | 0x80
 
-		return retval;
+		return retval
 
-	addr = 0x20
-x    def __init__(self, bus, addr, verbose):
-        self.ixData = MCP23017(bus, addr+1)
-        self.ixControl = PCF8574(bus, addr+2)
-        self.ixAddress = MCP23017(bus, addr+3)
-
-
 	##################################
 	# Initialization
 	
 	def __init__( self, _ardy, _i2cAddr8 = None ):
 		# set the arduino object
+		baseAddr = _i2cAddr8
+		if _i2cAddr8 is None:
+			baseAddr = 0x21
+
+		self.data = 0
+		self.dataControl = 0
+		self.dataAddress = 0
+
 		self.ardy = _ardy
-		self.cpuIoData  = MCP23017_IOExpander16( _ardy, 0x21 );
-		self.cpuControl = PCF8574_IOExpander8( _ardy, 0x22 );
-		self.cpuAddress = MCP23017_IOExpander16( _ardy, 0x23 );
+		self.cpuIoData  = MCP23017_IOExpander16( _ardy, baseAddr + 0 )
+		self.cpuControl = PCF8574_IOExpander8( _ardy, baseAddr + 1 )
+		self.cpuAddress = MCP23017_IOExpander16( _ardy, baseAddr + 2 )
+
+		self.ClearAllExpanders()
+
+	def ClearAllExpaners( self ):
+		# clear data register
+		self.cpuIoData.DirectionA( IODIRA, IOALLINPUT )
+		self.cpuIoData.SetA( 0x00 )
+		self.cpuIoData.DirectionB( IODIRA, IOALLINPUT )
+		self.cpuIoData.SetB( 0x00 )
+
+		# clear control register
+		self.cpuControl.Set( 0x00 )
+
+		# clear address register
+		self.cpuAddress.DirectionA( IOALLINPUT )
+		self.cpuAddress.SetA( 0x00 )
+		self.cpuAddress.DirectionB( IOALLINPUT )
+		self.cpuAddress.SetB( 0x00 )
 
 	##################################
 	# Low-level commands
@@ -87,21 +111,30 @@ x    def __init__(self, bus, addr, verbose):
 
 	def Reset( self ):
 		# RESET = 0
+		value = 0x00
+		self.cpuControl.Set( value )
 		self.SupervisorDelay()
+
 		# RESET = 1
-		return;
+		value = self.RESET
+		self.cpuControl.Set( value )
+		return
 
 	def TakeBus( self ):
-		BUSREQ = 0
+		value = self.BUSREQ
+		self.cpuControl.Set( value )
+
 		while True:
-			data.get( GPIO[1] )
-			if BUSAQ & 1 = 0
+			value = self.cpuIoData.GetB( )
+			if (value & BUSAQ) == 0
 				break
-		address[0] = iodir = 0 #output
-		address[1] = iodir = 0 #output
+
+		self.cpuAddress.DirectionA( IOALLINPUT )
+		self.cpuAddress.DirectionB( IOALLINPUT )
+
+		value = M1 | C
 		data.iodir |= M1, CLK, INT, BUSACK
 		data, setgpio	MREQ WR RD IORQ
-		set bank
 		return
 
 	def ReleaseBus( self ):

@@ -35,6 +35,7 @@ uint8_t i2cRead8( uint8_t address, uint8_t reg )
   uint8_t data = Wire.read();
   Wire.endTransmission();
 
+  strandIndicator( kDuration_I2c, kColor_I2CRead );
   return data;
 }
 
@@ -46,6 +47,7 @@ void i2cWrite8( uint8_t address, uint8_t reg, uint8_t data )
   Wire.write(data);
   Wire.endTransmission();
 
+  strandIndicator( kDuration_I2c, kColor_I2CWrite );
   return;
 }
 
@@ -58,6 +60,7 @@ uint8_t i2cRead8NoReg( uint8_t address )
   uint8_t data = Wire.read();
   Wire.endTransmission();
 
+  strandIndicator( kDuration_I2c, kColor_I2CRead );
   return data;
 }
 
@@ -80,6 +83,7 @@ uint16_t i2cRead16( uint8_t address, uint8_t reg )
   data |= (Wire.read() << 8);
   Wire.endTransmission();
 
+  strandIndicator( kDuration_I2c, kColor_I2CRead );
   return data;
 }
 
@@ -90,6 +94,7 @@ void i2cWrite16( uint8_t address, uint8_t reg, uint16_t data )
   Wire.write(reg);
   Wire.write(data);
   Wire.write(data >> 8);
+  strandIndicator( kDuration_I2c, kColor_I2CWrite );
 }
 
 // Generic I2C write data to no register (single byte)
@@ -98,4 +103,5 @@ void i2cWrite8NoReg( uint8_t address, uint8_t data )
   Wire.beginTransmission(address);
   Wire.write(data);
   Wire.endTransmission();
+  strandIndicator( kDuration_I2c, kColor_I2CWrite );
 }

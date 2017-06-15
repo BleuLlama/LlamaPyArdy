@@ -25,6 +25,8 @@ class MCP23017_IOExpander16(GenericChip):
 	# Registers
 
 	IODIRA 		= 0x00	# Direction A  1 = input, 0 = Output
+	IOALLINPUT	= 0xFF
+	IOALLOUTPUT	= 0x00
 	IODIRB 		= 0x01	# Direction B
 	IOPOLA 		= 0x02	# Invert A  1 = opposite, 1 = same
 	IOPOLB 		= 0x03	# Invert B
@@ -74,21 +76,21 @@ class MCP23017_IOExpander16(GenericChip):
 
 	def reset( self ):
 		# set up all bits as inputs 
-		self.DirectionA( 0xFF )
-		self.DirectionB( 0xFF )
+		self.DirectionA( self.ALLINPUT )
+		self.DirectionB( self.ALLINPUT )
 		
 	def test( self ):
 		# set for outputs
-		self.DirectionA( 0x00 )
-		self.DirectionB( 0x00 )
+		self.DirectionA( self.ALLOUTPUT )
+		self.DirectionB( self.ALLOUTPUT )
 
 		# loop for a bit
 		for b in range( 0, 15 ):
-		    for a in range( 0, 0xFFF ):
-			    self.SetA( a & 0x00FF )
-			    self.SetB( (a & 0x0FF0)>>4 )
-			    delay( 10 )
-		
+			for a in range( 0, 0xFFF ):
+				self.SetA( a & 0x00FF )
+				self.SetB( (a & 0x0FF0)>>4 )
+				delay( 10 )
+
 	##################################
 	# Interface
 

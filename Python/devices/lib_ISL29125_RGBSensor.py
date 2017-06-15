@@ -123,70 +123,70 @@ class ISL29125_RGBSensor(GenericChip):
 		self.config( self.CFG1_MODE_RGB | self.CFG1_10KLUX,
 					 self.CFG2_IR_ADJUST_HIGH,
 					 self.CFG_DEFAULT )
-		delay( 500 );
-		return
+		delay( 500 )
 		
 		
 	def reset( self ):
 		#reset registers
-	    self.ardy.i2cWrite8( self.i2cAddr8, self.DEVICE_ID, 0x46 ) #?
-	    
+		self.ardy.i2cWrite8( self.i2cAddr8, self.DEVICE_ID, 0x46 ) #?
+
 		# check reset
-	    data  = self.ardy.i2cRead8( self.i2cAddr8, self.CONFIG_1 )	# cfg1 
-	    data |= self.ardy.i2cRead8( self.i2cAddr8, self.CONFIG_2 )	# cfg2 
-	    data |= self.ardy.i2cRead8( self.i2cAddr8, self.CONFIG_3 )	# cfg3 
-	    data |= self.ardy.i2cRead8( self.i2cAddr8, self.STATUS   )	# status
-	    
-	    if not data is 0x00:
-	    	print "Reset failed."
-	    else:
-	    	print "Reset ok."
-	
-	
+		data  = self.ardy.i2cRead8( self.i2cAddr8, self.CONFIG_1 )	# cfg1 
+		data |= self.ardy.i2cRead8( self.i2cAddr8, self.CONFIG_2 )	# cfg2 
+		data |= self.ardy.i2cRead8( self.i2cAddr8, self.CONFIG_3 )	# cfg3 
+		data |= self.ardy.i2cRead8( self.i2cAddr8, self.STATUS   )	# status
+
+		if not data is 0x00:
+			print "Reset failed."
+		else:
+			print "Reset ok."
+
+
 	def config( self, cfg1, cfg2, cfg3 ):
 		# set the 3 config registers
-	    self.ardy.i2cWrite8( self.i2cAddr8, self.CONFIG_1, cfg1 )
-	    self.ardy.i2cWrite8( self.i2cAddr8, self.CONFIG_2, cfg2 )
-	    self.ardy.i2cWrite8( self.i2cAddr8, self.CONFIG_3, cfg3 )
-	    
-	    data = self.ardy.i2cRead8( self.i2cAddr8, self.CONFIG_1 )
-	    if not data is cfg1:
-	    	print "Config 1: failed"
-	
-	    data = self.ardy.i2cRead8( self.i2cAddr8, self.CONFIG_2 )
-	    if not data is cfg2:
-	    	print "Config 2: failed"
-	
-	    data = self.ardy.i2cRead8( self.i2cAddr8, self.CONFIG_3 )
-	    if not data is cfg3:
-	    	print "Config 3: failed"
+		self.ardy.i2cWrite8( self.i2cAddr8, self.CONFIG_1, cfg1 )
+		self.ardy.i2cWrite8( self.i2cAddr8, self.CONFIG_2, cfg2 )
+		self.ardy.i2cWrite8( self.i2cAddr8, self.CONFIG_3, cfg3 )
+
+		data = self.ardy.i2cRead8( self.i2cAddr8, self.CONFIG_1 )
+		if not data is cfg1:
+			print "Config 1: failed"
+
+		data = self.ardy.i2cRead8( self.i2cAddr8, self.CONFIG_2 )
+		if not data is cfg2:
+			print "Config 2: failed"
+
+		data = self.ardy.i2cRead8( self.i2cAddr8, self.CONFIG_3 )
+		if not data is cfg3:
+			print "Config 3: failed"
 
 
 	##################################
 	# Interface
 
 	def Get( self ):
-	    red   = self.ardy.i2cRead16( self.i2cAddr8, self.RED_L )
-	    green = self.ardy.i2cRead16( self.i2cAddr8, self.GREEN_L )
-	    blue  = self.ardy.i2cRead16( self.i2cAddr8, self.BLUE_L )
-	    return [ red, green, blue ]
+		red   = self.ardy.i2cRead16( self.i2cAddr8, self.RED_L )
+		green = self.ardy.i2cRead16( self.i2cAddr8, self.GREEN_L )
+		blue  = self.ardy.i2cRead16( self.i2cAddr8, self.BLUE_L )
+		return [ red, green, blue ]
 
 
 	def GetUnit( self ):
-	    maxVal = float( 0xFFFF )
-	    [red, green, blue] = self.Get()
+		maxVal = float( 0xFFFF )
+		[red, green, blue] = self.Get()
 
-	    red   = float( red ) / maxVal
-	    green = float( green ) / maxVal
-	    blue  = float( blue ) / maxVal
+		red   = float( red ) / maxVal
+		green = float( green ) / maxVal
+		blue  = float( blue ) / maxVal
 
-	    return [ red, green, blue ]
+		return [ red, green, blue ]
+
 
 	def GetScaledInt( self, scaledMax ):
-	    [red, green, blue] = self.GetUnit()
+		[red, green, blue] = self.GetUnit()
 
-	    red   = int( red * scaledMax )
-	    green = int( green * scaledMax )
-	    blue  = int( blue * scaledMax )
+		red   = int( red * scaledMax )
+		green = int( green * scaledMax )
+		blue  = int( blue * scaledMax )
 
-	    return [ red, green, blue ]
+		return [ red, green, blue ]

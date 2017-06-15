@@ -138,10 +138,14 @@ void lineHandle( char * lbuffer )
                     "  st,off      Turn all strand LEDs off\n"
                     "  st,I,R,G,B  Set LED I to be of value R,G,B (0..255)\n"
                     "  st,now      display all set LEDs\n"
+                    "  si,on       switch on indicator mode\n"
+                    "  si,off      switch off indicator mode\n"
+                    "  \n"
                     "Servo:\n"
                     "  sv,N,start   Attach servo stuff to pin N\n"
                     "  sv,N,end     Detach servo stuff from pin N\n"
                     "  sv,N,V       Set servo N at value V\n"
+                    "  \n"
                     "Misc:\n"
                     "  ver      return the current version\n"
                     "  cr,K     read the value in cfg[K]\n"
@@ -279,7 +283,6 @@ void lineHandle( char * lbuffer )
     /* LED Strand function */
     if ( argv[1] == NULL ) {
       value = 0xE0EE;
-      strandIdColor();
 
     } else if ( !strcmp( argv[1], "off" )) {
       value = 0xE000;
@@ -296,6 +299,23 @@ void lineHandle( char * lbuffer )
     }
   }
 
+  else if ( !strcmp( argv[0], "si" )) {
+    /* LED Strand function */
+    if ( argv[1] == NULL ) {
+      value = 0xE0EE;
+
+    } else if ( !strcmp( argv[1], "on" )) {
+      value = 0xFF01;
+      strandIndicatorEnable();
+
+    } else if ( !strcmp( argv[1], "off" )) {
+      value = 0xFF00;
+      strandIndicatorDisable();
+
+    } else {
+      value = 0xE0EE;
+    }
+  }
 
   else if ( !strcmp( argv[0], "sv" )) {
     /* Servo interactions */

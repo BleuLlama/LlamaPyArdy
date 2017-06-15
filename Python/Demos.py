@@ -40,53 +40,53 @@ class DemoApp( libPyArdyApp.PyArdyApp ):
 	# test ISL and Strand
 
 	def testColorMirror( self, ardy ):
-	    print "Color mirror!"
-	    rgb = ISL29125_RGBSensor( ardy )
+		print "Color mirror!"
+		rgb = ISL29125_RGBSensor( ardy )
 
-	    counter = 0
+		counter = 0
 
-	    while True:
-		[red, green, blue] = rgb.GetScaledInt( 255 )
+		while True:
+			[red, green, blue] = rgb.GetScaledInt( 255 )
 
-		print( "{:04d} = 0x{:02x} 0x{:02x} 0x{:02x}".format( counter, red, green, blue ));
-		ardy.strandColor( 0, red, green, blue )
-		ardy.strandShow()
-		ardy.flush()
+			print( "{:04d} = 0x{:02x} 0x{:02x} 0x{:02x}".format( counter, red, green, blue ));
+			ardy.strandColor( 0, red, green, blue )
+			ardy.strandShow()
+			ardy.flush()
 
-		counter = counter + 1
+			counter = counter + 1
 
 
 	def testISLStrand( self, ardy ):
-	    print "ISL + strand Test"
+		print "ISL + strand Test"
 
-	    rgb = ISL29125_RGBSensor( ardy )
+		rgb = ISL29125_RGBSensor( ardy )
 
-	    settleTime = 50 
+		settleTime = 50 
 
-	    ardy.strandOff()
-	    delay( 500 )
+		ardy.strandOff()
+		delay( 500 )
 
-	    for which in range ( 0, 3 ):
+		for which in range ( 0, 3 ):
 
-		print "idx, r, g, b"
-		for i in range( 0, 256 ):
-		    red = 0
-		    green = 0
-		    blue = 0
+			print "idx, r, g, b"
+			for i in range( 0, 256 ):
+				red = 0
+				green = 0
+				blue = 0
 
-		    if which is 0:
-			red = i
-		    if which is 1:
-			green = i
-		    if which is 2:
-			blue = i
+				if which is 0:
+					red = i
+				if which is 1:
+					green = i
+				if which is 2:
+					blue = i
 
-		    ardy.strandColor( 0, red, green, blue )
-		    ardy.strandShow()
-		    delay( settleTime )
-		    [rr,rg,rb] = rgb.Get()
-		    ardy.flush()
-		    print "{},  {}, {}, {}".format( i, rr,rg,rb, )
+				ardy.strandColor( 0, red, green, blue )
+				ardy.strandShow()
+				delay( settleTime )
+				[rr,rg,rb] = rgb.Get()
+				ardy.flush()
+				print "{},  {}, {}, {}".format( i, rr,rg,rb, )
 
 		ardy.strandOff()
 		delay( 500 )
@@ -97,63 +97,63 @@ class DemoApp( libPyArdyApp.PyArdyApp ):
 	# test the strand LEDs
 
 	def testStrandGamma( self, ardy ):
-	    gamma = LlamaGamma()
+		gamma = LlamaGamma()
 
-	    print "Strand Brightness Gamma test"
+		print "Strand Brightness Gamma test"
 
-	    #gamma.dump()
+		#gamma.dump()
 
-	    for j in range( 0, 3 ):
+		for j in range( 0, 3 ):
 
-		print "{} up".format( j )
-		for i in range( 0, 255 ):
-		    adj = gamma.adjust( i ) 
-		    ardy.strandColor( 0, 0, adj, 0 )
-		    ardy.strandShow()
-		    delay(1)
+			print "{} up".format( j )
+			for i in range( 0, 255 ):
+				adj = gamma.adjust( i ) 
+				ardy.strandColor( 0, 0, adj, 0 )
+				ardy.strandShow()
+				delay(1)
 
-		print "{} down".format( j )
-		for i in range( 0, 255 ):
-		    adj = gamma.adjust( 255-i ) 
-		    ardy.strandColor( 0, 0, adj, 0 )
-		    ardy.strandShow()
-		    delay(1)
+			print "{} down".format( j )
+			for i in range( 0, 255 ):
+				adj = gamma.adjust( 255-i ) 
+				ardy.strandColor( 0, 0, adj, 0 )
+				ardy.strandShow()
+				delay(1)
 
-	    ardy.strandOff()
+		ardy.strandOff()
 
 
 	def testStrand( self, ardy ):
-	    print "Strand Test"
-	    print "RGB"
-	    ardy.strandColor( 0, 255,   0,   0 )
-	    ardy.strandColor( 1,   0, 255,   0 )
-	    ardy.strandColor( 2,   0,   0, 255 )
-	    ardy.strandShow()
-	    delay( 1000 )
-	    print "Others"
-	    ardy.strandColor( 3,   0, 255, 255 )
-	    ardy.strandColor( 4, 255,   0, 255 )
-	    ardy.strandColor( 5, 255, 255,   0 )
-	    ardy.strandColor( 6,  30,  30,  30 )
-	    ardy.strandShow()
-	    delay( 1000 )
-	    ardy.strandOff()
-	    delay( 500 )
-
-	    print "Randoms"
-	    for a in range( 0,10 ):
-		for i in range( 0,7 ):
-		    rr = randint( 0, 100 )
-		    gg = randint( 0, 100 )
-		    bb = randint( 0, 100 )
-		    ardy.strandColor( i, rr, gg, bb )
+		print "Strand Test"
+		print "RGB"
+		ardy.strandColor( 0, 255,   0,   0 )
+		ardy.strandColor( 1,   0, 255,   0 )
+		ardy.strandColor( 2,   0,   0, 255 )
 		ardy.strandShow()
-		delay( 100 )
+		delay( 1000 )
+		print "Others"
+		ardy.strandColor( 3,   0, 255, 255 )
+		ardy.strandColor( 4, 255,   0, 255 )
+		ardy.strandColor( 5, 255, 255,   0 )
+		ardy.strandColor( 6,  30,  30,  30 )
+		ardy.strandShow()
+		delay( 1000 )
+		ardy.strandOff()
+		delay( 500 )
 
-	    print "Ending."
-	    delay( 100 )
-	    ardy.strandOff()
-	    print "Done."
+		print "Randoms"
+		for a in range( 0,10 ):
+			for i in range( 0,7 ):
+				rr = randint( 0, 100 )
+				gg = randint( 0, 100 )
+				bb = randint( 0, 100 )
+				ardy.strandColor( i, rr, gg, bb )
+				ardy.strandShow()
+				delay( 100 )
+
+		print "Ending."
+		delay( 100 )
+		ardy.strandOff()
+		print "Done."
 
 
 	################################################################################
@@ -181,34 +181,34 @@ class DemoApp( libPyArdyApp.PyArdyApp ):
 	# talk to an ISL color sensor
 
 	def testISL( self, ardy ):
-	    print "ISL Test"
+		print "ISL Test"
 
-	    rgb = ISL29125_RGBSensor( ardy )
+		rgb = ISL29125_RGBSensor( ardy )
 
-	    for i in range( 0, 5 ):
-		[r,g,b] = rgb.Get()
-		print( "RGB = 0x{:04x} 0x{:04x} 0x{:04x}".format( r,g,b ));
-		delay( 1000 )
+		for i in range( 0, 5 ):
+			[r,g,b] = rgb.Get()
+			print( "RGB = 0x{:04x} 0x{:04x} 0x{:04x}".format( r,g,b ));
+			delay( 1000 )
 
 
 	################################################################################
 	# talk directly to the LED flash loop, bitwise IO, and analog read
 
 	def testLEDsAndIO( self, ardy ):
-	    ardy.ledPin( 6 );
-	    ardy.ledPattern( 3 );
+		ardy.ledPin( 6 );
+		ardy.ledPattern( 3 );
 
-	    value = ardy.digitalRead( 3 );
-	    print( "Value read was " + str( value ) )
+		value = ardy.digitalRead( 3 );
+		print( "Value read was " + str( value ) )
 
-	    for i in range( 0, 3 ):
-		value = ardy.analogRead( i );
-		print( "{}: Value read was {}".format( i, value ) )
-		delay( 200 )
+		for i in range( 0, 3 ):
+			value = ardy.analogRead( i );
+			print( "{}: Value read was {}".format( i, value ) )
+			delay( 200 )
 
-	    #for i in range( 0, 255 ):
-	    #	ardy.analogWrite( 6, i );
-	    #	delay( 1 );
+		#for i in range( 0, 255 ):
+		#	ardy.analogWrite( 6, i );
+		#	delay( 1 );
 
 
 	################################################################################
@@ -236,35 +236,35 @@ class DemoApp( libPyArdyApp.PyArdyApp ):
 	    
 
 	def testLegoDisplay( self, ardy ):
-	    gamma = LlamaGamma()
-	    indexes  = [ 2, 3, 4, 5 ]
-	    timeouts = [ 0, 0, 0, 0 ]
-	    flashing = [ False, False, False, False ]
+		gamma = LlamaGamma()
+		indexes  = [ 2, 3, 4, 5 ]
+		timeouts = [ 0, 0, 0, 0 ]
+		flashing = [ False, False, False, False ]
 
-	    ardy.strandOff();
+		ardy.strandOff();
 
-	    steps = 0
-	    while True:
-		# for each light...
-		for a in range( 0, 4 ):
+		steps = 0
+		while True:
+			# for each light...
+			for a in range( 0, 4 ):
 
-		    # Timeouts to pick new color, time, flashing
-		    if( millis() > timeouts[a] ):
-			self.randomColorOnLed( ardy, gamma, indexes[ a ] )
-			if random() > 0.5:
-			    timeouts[ a ] = millis() + randint( 400, 700 )
-			else:
-			    timeouts[ a ] = millis() + randint( 10, 70 )
-			if random() > 0.5:
-			    flashing[ a ] = True
-			else:
-			    flashing[ a ] = False
+				# Timeouts to pick new color, time, flashing
+				if( millis() > timeouts[a] ):
+					self.randomColorOnLed( ardy, gamma, indexes[ a ] )
+					if random() > 0.5:
+						timeouts[ a ] = millis() + randint( 400, 700 )
+					else:
+						timeouts[ a ] = millis() + randint( 10, 70 )
+					if random() > 0.5:
+						flashing[ a ] = True
+					else:
+						flashing[ a ] = False
 
-		    steps = steps + 1
-		    #if flashing[ a ] is True:
-		    #else:
-		    
-		ardy.strandShow()
+				steps = steps + 1
+				#if flashing[ a ] is True:
+				#else:
+
+			ardy.strandShow()
 
 
 	################################################################################
@@ -301,9 +301,17 @@ class DemoApp( libPyArdyApp.PyArdyApp ):
 			
 
 	################################################################################
+	# Misc tests
+
+	def probeI2C( self, ardy ):
+		ardy.i2cProbe()
+
+	
+	################################################################################
 	# test out stuff
 
 	funcdict = {
+	    "probeI2C" : probeI2C,
 	    "testPCF" : testPCF,
 	    "testMCP" : testMCP,
 	    "testISL" : testISL,
@@ -317,6 +325,7 @@ class DemoApp( libPyArdyApp.PyArdyApp ):
 	}
 
 	demoList = [
+	    [ '0', "I2C Probe", "probeI2C" ],
 	    [ '1', "PCF Test", "testPCF" ],
 	    [ '2', "MCP Test", "testMCP" ],
 	    [ '3', "ISL Test", "testISL" ],
@@ -332,25 +341,26 @@ class DemoApp( libPyArdyApp.PyArdyApp ):
 
 
 	def run( self, ardy ):
-	    name = ardy.GetPortName()
-	    desc = ardy.GetPortDescription()
-	    print "Using device {} ({})".format( name, desc )
+		name = ardy.GetPortName()
+		desc = ardy.GetPortDescription()
+		print "Using device {} ({})".format( name, desc )
+		ardy.indicatorOn();
 
-	    while True:
-		print ""
-		print "   Pick the demo to run:"
+		while True:
+			print ""
+			print "   Pick the demo to run:"
 
-		for item in self.demoList:
-		    print "     {}: {}".format( item[0], item[1] )
+			for item in self.demoList:
+				print "     {}: {}".format( item[0], item[1] )
 
-		userinput = raw_input( "? " ).strip()
-		print "('{}')".format( userinput )
+			userinput = raw_input( "? " ).strip()
+			print "('{}')".format( userinput )
 
-		for item in self.demoList:
-		    if userinput is item[0]:
-			if( item[2] is None ):
-			    return
-			self.funcdict[ item[2] ]( self, ardy )
+			for item in self.demoList:
+				if userinput is item[0]:
+					if( item[2] is None ):
+						return
+					self.funcdict[ item[2] ]( self, ardy )
 
 ################################################################################
 

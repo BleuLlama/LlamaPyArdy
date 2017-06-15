@@ -42,6 +42,8 @@ def signal_handler( signal, frame ):
 	print( "BREAK." )
 	sys.exit( 0 )
 
+
+# and immediately install it on including this library
 signal.signal( signal.SIGINT, signal_handler )
 #signal.pause()
 
@@ -53,68 +55,68 @@ signal.signal( signal.SIGINT, signal_handler )
 
 class PyArdyApp:
 
-        def usage( self ):
-                print "App.py <options>"
-                print "    -a TXT  attach to port with 'TXT' matching"
-                print "    -l      List detected serial ports"
-                print "    -p      perform I2C probe"
-                print "    -s      Simulated Arduino connection mode"
+	def usage( self ):
+		print "App.py <options>"
+		print "	-a TXT  attach to port with 'TXT' matching"
+		print "	-l	  List detected serial ports"
+		print "	-p	  perform I2C probe"
+		print "	-s	  Simulated Arduino connection mode"
 
-        def run( self, ardy ):
-                print "replace this function."
-    
+	def run( self, ardy ):
+		print "replace this function."
 
-        def main( self, argv ):
-                ardy = ArdySer( True )
 
-                doI2cProbe = False
-                arduinotext = None
+	def main( self, argv ):
+		ardy = ArdySer( True )
 
-                try:
-                        opts, args = getopt.getopt(argv,"hlspa:",["arduino="])
+		doI2cProbe = False
+		arduinotext = None
 
-                except getopt.GetoptError:
-                        self.usage()
-                        sys.exit(2)
+		try:
+			opts, args = getopt.getopt(argv,"hlspa:",["arduino="])
 
-                for opt, arg in opts:
-                        if opt == '-l':
-                                ardy.listSerialPorts()
-                                return
+		except getopt.GetoptError:
+			self.usage()
+			sys.exit(2)
 
-                        elif opt == '-s':
-                                ardy.EnableSimulation()
+		for opt, arg in opts:
+			if opt == '-l':
+				ardy.listSerialPorts()
+				return
 
-                        elif opt == '-p':
-                                doI2cProbe = True
+			elif opt == '-s':
+				ardy.EnableSimulation()
 
-                        elif opt == '-a':
-                                arduinotext = arg
+			elif opt == '-p':
+				doI2cProbe = True
 
-                        elif opt in ("-a", "--arduino"):
-                                arduinotext = arg
+			elif opt == '-a':
+				arduinotext = arg
 
-                        else:
-                                self.usage()
-                                sys.exit()
+			elif opt in ("-a", "--arduino"):
+				arduinotext = arg
 
-                ardy.openConnection( arduinotext )
+			else:
+				self.usage()
+				sys.exit()
 
-                if not ardy.isConnected():
-                        print " ===================="
-                        print "  Arduino not found!"
-                        print " ===================="
-                        print
-                        self.usage()
-                        return
+			ardy.openConnection( arduinotext )
 
-                if doI2cProbe is True:
-                        ardy.i2cProbe()
-                        return
-                
-                self.run( ardy )
+			if not ardy.isConnected():
+				print " ===================="
+				print "  Arduino not found!"
+				print " ===================="
+				print
+				self.usage()
+				return
+
+			if doI2cProbe is True:
+				ardy.i2cProbe()
+				return
+			
+			self.run( ardy )
 
 # put this in your main app as well.
 #if __name__ == "__main__":
-#        paa = PyArdyApp()
-#        paa.main(sys.argv[1:])
+#		paa = PyArdyApp()
+#		paa.main(sys.argv[1:])

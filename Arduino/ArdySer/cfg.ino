@@ -18,9 +18,9 @@ void cfgFormat()
   int i;
 
   Serial.print( "# Formatting" );
-  for( i = 0 ; i < EEPROM.length() ; i++ ) {
+  for ( i = 0 ; i < EEPROM.length() ; i++ ) {
     EEPROM.write( i, 0xff );
-    if( (i & 0x1F) == 0x00 ) {
+    if ( (i & 0x1F) == 0x00 ) {
       Serial.write( '.' );
     }
   }
@@ -33,8 +33,8 @@ void cfgWriteDefaults()
   Serial.println( "# Writing default prefs to EEProm" );
   EEPROM.write( kEE_SENTINEL_0, 0xBE );
   EEPROM.write( kEE_SENTINEL_1, 0xEF );
-  EEPROM.write( kEE_VERS,       (kCurrentVersion >>8) & 0x0FF );
-  EEPROM.write( kEE_VERS+1,     kCurrentVersion & 0x0FF );
+  EEPROM.write( kEE_VERS,       (kCurrentVersion >> 8) & 0x0FF );
+  EEPROM.write( kEE_VERS + 1,     kCurrentVersion & 0x0FF );
   EEPROM.write( kEE_LEDPin,     LED_BUILTIN );
   Serial.println( "# Done." );
 }
@@ -44,11 +44,11 @@ void cfgSetup()
 {
   bool setDefaults = false;
 
-  if( EEPROM.read( kEE_SENTINEL_0 ) != 0xBE ) setDefaults = true;
-  if( EEPROM.read( kEE_SENTINEL_1 ) != 0xEF ) setDefaults = true;
-    // could check VERS here also to see if migration is needed
-  
-  if( setDefaults == true ) {
+  if ( EEPROM.read( kEE_SENTINEL_0 ) != 0xBE ) setDefaults = true;
+  if ( EEPROM.read( kEE_SENTINEL_1 ) != 0xEF ) setDefaults = true;
+  // could check VERS here also to see if migration is needed
+
+  if ( setDefaults == true ) {
     cfgWriteDefaults();
   }
 }

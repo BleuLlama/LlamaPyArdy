@@ -2,10 +2,10 @@
 ################################################################################
 # lib_PCF8574_IOExpander8
 #
-#	Implementation of the PCF8574 8 bit I2C IO expander for 
-#	the ArdySerial system
+#       Implementation of the PCF8574 8 bit I2C IO expander for 
+#       the ArdySerial system
 #
-#	V001 2017-05-09	sdl
+#       V001 2017-05-09 sdl
 #
 ################################################################################
 
@@ -27,13 +27,11 @@ class PCF8574_IOExpander8(GenericChip):
 
 	# none.
 
-#Okay. this one works a bit weird. Might require code changes on the 
-#ardy.  there is no register to request from for it. Just read or 
-#write to the device.  
+# Okay. this one works a bit weird.  There is no register to request 
+#  from for it. Just read or write to the device.   It even automatically
+#  figures out if it is an input or output.  Weird chip.
 #
-#need to check if reading/writing to 0x00 is okay. then it'd require nothing
-##
-#Needs basically Read8()  Write8()  no args
+#  This uses the "NoReg" variants of read/write
 
 ##################################
 # Class variables
@@ -55,9 +53,9 @@ class PCF8574_IOExpander8(GenericChip):
 	def test( self ):
 		for i in range( 0,100 ):
 			print i
-                	self.ardy.i2cWrite8NoReg( self.i2cAddr8, 0xFF )
+			self.ardy.i2cWrite8NoReg( self.i2cAddr8, 0xFF )
 			delay( 200 )
-                	self.ardy.i2cWrite8NoReg( self.i2cAddr8, 0x00 )
+			self.ardy.i2cWrite8NoReg( self.i2cAddr8, 0x00 )
 			delay( 200 )
 			
 		
@@ -65,13 +63,9 @@ class PCF8574_IOExpander8(GenericChip):
 	# Interface
 	
 	def Set( self, value ):
-	    self.ardy.i2cWrite8NoReg( self.i2cAddr8, value )
-	    self.writeData = value
-	    return value
+		self.ardy.i2cWrite8NoReg( self.i2cAddr8, value )
+		self.writeData = value
+		return value
 	
 	def Get( self ):
-	    return self.ardy.i2cRead8NoReg( self.i2cAddr8 )
-
-
-
-	
+		return self.ardy.i2cRead8NoReg( self.i2cAddr8 )
