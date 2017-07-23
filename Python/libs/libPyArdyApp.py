@@ -114,7 +114,7 @@ class PyArdyApp:
 				ardy.i2cProbe()
 				return
 			
-			self.run( ardy )
+		self.run( ardy )
 
 # put this in your main app as well.
 #if __name__ == "__main__":
