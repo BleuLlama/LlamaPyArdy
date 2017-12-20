@@ -48,7 +48,7 @@ class ArdySer:
 # port discovery
 
 	def couldBeArduino( self, trycomport ):
-		possibilities = ['Arduino', 'CH340', 'CH341', 'wchusb' ]
+		possibilities = ['Arduino', 'CH340', 'CH341', 'wchusb', 'usbmodem' ]
 		for needle in possibilities:
 			if needle in trycomport.description:
 				return True
