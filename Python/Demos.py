@@ -301,6 +301,21 @@ class DemoApp( libPyArdyApp.PyArdyApp ):
 			
 
 	################################################################################
+
+	def testAnalogs( self, ardy ):
+		
+		for iteration in range( 0, 999999 ):
+			print "A: {} {} {} {} {} {}".format( 
+				ardy.analogRead( 0 ),
+				ardy.analogRead( 1 ),
+				ardy.analogRead( 2 ),
+				ardy.analogRead( 3 ),
+				ardy.analogRead( 4 ),
+				ardy.analogRead( 5 ) )
+			delay( 50 )
+			
+
+	################################################################################
 	# Misc tests
 
 	def probeI2C( self, ardy ):
@@ -322,6 +337,7 @@ class DemoApp( libPyArdyApp.PyArdyApp ):
 	    "testColorMirror" : testColorMirror,
 	    "testLegoDisplay" : testLegoDisplay,
 	    "testServo" : testServo,
+	    "testAnalogs" : testAnalogs,
 	}
 
 	demoList = [
@@ -336,6 +352,7 @@ class DemoApp( libPyArdyApp.PyArdyApp ):
 	    [ '8', "Color Mirror", "testColorMirror" ],
 	    [ '9', "Lego Display", "testLegoDisplay" ],
 	    [ 'a', "Servo Test", "testServo" ],
+	    [ 'b', "Analg Reads", "testAnalogs" ],
 	    [ 'q', "Quit", None ],
 	]
 
